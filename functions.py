@@ -1,6 +1,8 @@
 #import libraries for functions
 import pandas as pd
-
+import geopandas as gpd
+from shapely.geometry import Point, Polygon
+from pyproj import CRS
 
 def demo_data(features, filepath):
 
@@ -43,3 +45,46 @@ def demo_data(features, filepath):
     estimates.index = neighborhoods.index
     
     return neighborhoods.merge(estimates, left_index=True,right_index = True)
+
+# define Geographic 2D Coodinate system (CRS: EPSG:4326)
+crs_4326 = CRS("WGS84")
+
+# define neighborhood (nb_df) GeoDataFrame
+neighborhood = gpd.read_file('Raw Data/Neighborhood Tabulation Areas (NTA)')
+nb_df = neighborhood[['ntacode', 'ntaname', 'geometry']]
+
+def identify_neighborhood(df):
+    '''
+    Returns a GeoDataFrame with features labeled by NYC neighborhood.
+    
+        Parameters:
+            df (DataFrame): a pandas dataframe with feature and corresponding geographic info.
+                            must include columns 'Latitude' and 'Longitude'.
+            
+        Returns:
+            df_with_neighborhood (GeoDataFrame): new GeoDataFrame with neighborhood code and name added as columns to label feature location within neighborhood.
+    '''
+    # drop null columns if pressent
+    df = df.dropna()
+    
+    # create shapely Point info from Lat & Long
+    geometry = [Point(xy) for xy in zip(df['Longitude'], df['Latitude'])]
+    # add Points column
+    geo_df = gpd.GeoDataFrame(df, crs=crs_4326, geometry=geometry)
+    
+    # join feature with neighborhood GeoDataFrame 
+    df_with_neighborhood = gpd.sjoin(geo_df, nb_df, how="inner", op='intersects')
+    
+    # set ntacode as index
+    df_with_neighborhood.index = df_with_neighborhood['ntacode']
+    df_with_neighborhood.index.name = 'ntacode'
+    df_with_neighborhood.drop('ntacode',axis = 1,inplace=True)
+    
+    # ask for input value to name feature output column
+    column_name = input('Feature column name: ')
+    
+    #output feature count with neighborhood code
+    df_with_neighborhood = df_with_neighborhood.sort_values('ntacode')[['ntaname']].groupby('ntacode').count()
+    df_with_neighborhood = df_with_neighborhood.rename(columns={'ntaname': column_name})
+    
+    return df_with_neighborhood
