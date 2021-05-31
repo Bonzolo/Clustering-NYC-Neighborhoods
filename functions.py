@@ -55,20 +55,23 @@ nb_df = neighborhood[['ntacode', 'ntaname', 'geometry']]
 
 def identify_neighborhood(df):
     '''
-    Returns a GeoDataFrame with features labeled by NYC neighborhood.
+    Returns a GeoDataFrame of feature counts labeled by NYC neighborhood.
     
         Parameters:
-            df (DataFrame): a pandas dataframe with feature and corresponding geographic info.
+            df (DataFrame): a dataframe for feature that includes corresponding geographic info.
                             must include columns 'Latitude' and 'Longitude'.
             
         Returns:
             df_with_neighborhood (GeoDataFrame): new GeoDataFrame with neighborhood code and name added as columns to label feature location within neighborhood.
     '''
-    # drop null columns if pressent
+    # make all column names lower case, and remove all irrelevant columns
+    df.columns = df.columns.str.lower()
+    df = df[['longitude', 'latitude']]
+    # now drop null columns if pressent
     df = df.dropna()
     
     # create shapely Point info from Lat & Long
-    geometry = [Point(xy) for xy in zip(df['Longitude'], df['Latitude'])]
+    geometry = [Point(xy) for xy in zip(df['longitude'], df['latitude'])]
     # add Points column
     geo_df = gpd.GeoDataFrame(df, crs=crs_4326, geometry=geometry)
     
