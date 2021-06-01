@@ -3,6 +3,7 @@ import pandas as pd
 import geopandas as gpd
 from shapely.geometry import Point, Polygon
 from pyproj import CRS
+import matplotlib.pyplot as plt
 
 def demo_data(features, filepath):
 
@@ -91,3 +92,41 @@ def identify_neighborhood(df):
     df_with_neighborhood = df_with_neighborhood.rename(columns={'ntaname': column_name})
     
     return df_with_neighborhood
+
+def visualize_clusters(cluster_result_df, clusters_array):
+    """
+    Returns a plot of color-coded clustered neighborhoods on map of NYC.
+    
+        Parameters:
+            cluster_result_df (DataFrame): dataframe used for clustering, prior to scaling.
+            clusters_array (list): list of assigned cluster values.
+            
+        Returns:
+            Plot of clustered NYC neighborhoods.
+    """
+    # add column of cluster values to cluster result DataFrame
+    cluster_result_df['cluster'] = clusters_array
+    
+    # creat list to match neighborhood with each observation 
+    nb_polygon = []
+    for i in range(len(cluster_result_df)):
+        try:
+            for j in range(len(nb_df)):
+                if cluster_result_df.index[i] == nb_df.ntacode[j]:
+                    nb_polygon.append(nb_df.geometry[j])
+                    break
+        except:
+            pass
+        
+    # add column of neighborhoods to cluster result DataFrame
+    cluster_result_df['geometry'] = nb_polygon
+    
+    # convert cluster result to GeoDataFrame
+    gdf = gpd.GeoDataFrame(cluster_result_df, geometry=cluster_result_df.geometry, crs="EPSG:4326")
+    
+    # plot on NYC map
+    fig, ax = plt.subplots(figsize=(15,15))
+    gdf.plot(ax=ax, column='cluster', cmap='Dark2', categorical=True, legend=True)
+    plt.show()
+    
+    fig.clf()
