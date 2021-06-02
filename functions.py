@@ -1,8 +1,21 @@
 #import libraries for functions
+from sklearn.neighbors import NearestNeighbors
+from kneed import KneeLocator
+import numpy as np
+from plotly.subplots import make_subplots
 import pandas as pd
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from sklearn.cluster import DBSCAN
+import functions as f
+from sklearn.cluster import KMeans
+import plotly.express as px
+import plotly.graph_objects as go
+import scipy.cluster.hierarchy as sch
+from sklearn.cluster import AgglomerativeClustering
 import geopandas as gpd
-from shapely.geometry import Point, Polygon
 from pyproj import CRS
+from shapely.geometry import Point, Polygon
 import matplotlib.pyplot as plt
 
 def demo_data(features, filepath):
@@ -98,7 +111,7 @@ def visualize_clusters(df, clusters_array):
     Returns a plot of color-coded clustered neighborhoods on map of NYC.
     
         Parameters:
-            cluster_result_df (DataFrame): dataframe used for clustering, prior to scaling.
+            df (DataFrame): dataframe used for clustering, prior to scaling.
             clusters_array (list): list of assigned cluster values.
             
         Returns:
@@ -132,3 +145,56 @@ def visualize_clusters(df, clusters_array):
     plt.show()
     
     fig.clf()
+    
+
+def plotter(df,method):
+    
+    # Create a new scaled dataset
+    new_df = pd.DataFrame(StandardScaler(with_mean = False).fit_transform(df),columns = df.columns)
+    features = list(df.columns)
+    
+    # Check method input to decide what type of clustering to undergo
+    if method == 'kmeans':
+        clusters = 5
+        km = KMeans(n_clusters=clusters,n_init=20)
+        y = km.fit_predict(new_df)
+        
+    elif method == 'heirarchical':
+        clusters = 5
+        ac = AgglomerativeClustering(affinity='euclidean', linkage='ward', n_clusters = clusters)
+        y = ac.fit_predict(new_df)
+        
+    elif method == 'dbscan':
+        # Use Knee Method to identify an optimal value for epsilon
+        n = 2
+        nearest_neighbors = NearestNeighbors(n_neighbors=n)
+        neighbors = nearest_neighbors.fit(new_df)
+        distances, indices = neighbors.kneighbors(new_df)
+        distances = np.sort(distances[:,n-1], axis=0)
+        x = np.arange(len(distances))
+        knee = KneeLocator(x, distances, S=1, curve='convex', direction='increasing', interp_method='polynomial')
+        eps = distances[knee.knee]
+            
+        db = DBSCAN(eps, min_samples=2)
+        y = db.fit_predict(new_df)
+        # Unlike KMeans and Heirarchical, amount of clusters varies, so amount of clusters are identified which is used later for graphing
+        clusters = len(np.unique(y))
+        # Have to increase the value of cluster number as DBScan number defaults to a -1 start rather than 0
+        y += 1
+        
+    else:
+        return "Not a valid method, valid choices are 'kmeans', 'heirarchical' and 'dbscan'"
+    
+    # Add Cluster Number to dataframe to assign each neighborhood with a Cluster, a 1 is added as default cluster numbering begins at 0
+    new_df['Cluster'] = y+1
+    # Call function to plot the NYC map with clusters labeled via colors
+    visualize_clusters(df,y+1)
+
+    # Radar chart generation
+    fig = go.Figure()
+    # Iterate to plot each radar chart on top of each other
+    for j in range(clusters):
+        fig.add_trace(go.Scatterpolar(r=list(new_df[new_df['Cluster'] == j+1].mean()), theta=features, fill='toself',name='Cluster '+ str(j+1)))
+    
+    fig.update_layout(polar=dict(radialaxis=dict(visible=True,range=[0, 6])), showlegend=True)
+    fig.show()
