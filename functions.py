@@ -93,7 +93,7 @@ def identify_neighborhood(df):
     
     return df_with_neighborhood
 
-def visualize_clusters(cluster_result_df, clusters_array):
+def visualize_clusters(df, clusters_array):
     """
     Returns a plot of color-coded clustered neighborhoods on map of NYC.
     
@@ -104,6 +104,8 @@ def visualize_clusters(cluster_result_df, clusters_array):
         Returns:
             Plot of clustered NYC neighborhoods.
     """
+    # copy df
+    cluster_result_df = df.copy()
     # add column of cluster values to cluster result DataFrame
     cluster_result_df['cluster'] = clusters_array
     
