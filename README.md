@@ -1,14 +1,10 @@
-# Goal
-The goal of this project was to explore various datasets available online to obtain features that can be used to undergo unsupervised learning and cluster the neighborhooods of New York City (NYC). The results will be interpreted with the help of additional demographic and location data to help classify the clusters generated via various clustering methods. Clustering methods explored include KMeans, DBScan and Hierarchical. 
-
 # Folders
-## Clustering Folder
-After data is extracted and processed. Store datasets are placed within the Clustering folder for ease of reference.
+> ## Clustering Folder
+> After data is extracted and processed. Store datasets are placed within the Clustering folder for ease of reference.
+> ## Raw Data Folder
+> All datasets from various sources are store within 'Raw Data'. The functions will be pulling data from these files. 
 
-## Raw Data Folder
-All datasets from various sources are store within 'Raw Data'. The functions will be pulling data from these files. 
-
-'acs_combined.xlsx' is a combination of 'acs_demo_08to12_ntas.xlsx' , 'acs_select_econ_08to12_ntas.xlsx', 'acs_select_housing_08to12_ntas.xlsx', 'acs_socio_08to12_ntas.xlsx' to have all the data be located within one file for easier access. 
+> 'acs_combined.xlsx' is a combination of 'acs_demo_08to12_ntas.xlsx' , 'acs_select_econ_08to12_ntas.xlsx', 'acs_select_housing_08to12_ntas.xlsx', 'acs_socio_08to12_ntas.xlsx' to > have all the data be located within one file for easier access. 
 
 ## Visualizations Folder
 All data visulaitions used for presentations are stored here.
