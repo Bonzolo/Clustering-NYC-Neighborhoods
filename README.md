@@ -3,10 +3,10 @@
 - ***Clustering Folder***
    - After data is extracted and processed. Store datasets are placed within the Clustering folder for ease of reference.
 - ***Raw Data Folder***
-   - All datasets from various sources are store within 'Raw Data'. The functions will be pulling data from these files.
+   - All datasets from various sources are store within here. The functions will be pulling data from these files.
    - 'acs_combined.xlsx' is a combination of 'acs_demo_08to12_ntas.xlsx' , 'acs_select_econ_08to12_ntas.xlsx', 'acs_select_housing_08to12_ntas.xlsx', 'acs_socio_08to12_ntas.xlsx' to have all the data be located within one file for easier access. 
 - ***Visualizations Folder***
-   - All data visulaitions used for presentations are stored here.
+   - All data visualizations used for presentations are stored here.
 
 # Function File
 - ***functions.py***
