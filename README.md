@@ -1,7 +1,5 @@
 # Folders
 
----
-
 ### Clustering Folder
 After data is extracted and processed. Store datasets are placed within the Clustering folder for ease of reference.
 ### Raw Data Folder
