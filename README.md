@@ -34,6 +34,6 @@
 - ***Supervised_Learning.ipynb***
    - This notebook was an exploratory process to implement simple supervised learning models to explore relationships between clustering features and try to gain insights on their predictive power.
 
-
+[Presentation Link](https://drive.google.com/drive/folders/12ltR1CuMpGDl5RRuWdXawXVee4yM4FhN?usp=sharing)
 
 
