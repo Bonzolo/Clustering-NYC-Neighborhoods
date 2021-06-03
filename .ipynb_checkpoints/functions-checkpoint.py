@@ -219,7 +219,7 @@ def plotter(df,method):
     # Radar chart generation
     fig = go.Figure()
     # Create a color list to match the Dark 2 colormap scheme, used when creating the Radar Charts to get them to match with the map
-    color = ['#1B9E77','#D95F02','#7570B3','#E7298A','#66A61E','#E6AB02','#A6761D','#666666'] 
+    color = ['#1B9E77','#7570B3','#66A61E','#A6761D','#666666','#D95F02','#E7298A','#E6AB02']  
     # Iterate to plot each radar chart on top of each other
     for j in range(clusters):
         fig.add_trace(go.Scatterpolar(r=list(new_df[new_df['Cluster'] == j+1].mean()), theta=features, fill='toself', fillcolor = color[j], opacity=0.6, name='Cluster '+ str(j+1), line={'color':color[j]}))
