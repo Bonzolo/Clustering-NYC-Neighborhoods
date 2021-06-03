@@ -15,9 +15,13 @@ All data visulaitions used for presentations are stored here.
 ## functions.py
 This file stores all the functions that have been user created and used within the various notebooks to conduct tasks. 
 
+---
+
 # Data Processing and Feature Engineering
 ## Exploration_Results.ipynb
 This notebook was used to process the data and conduct some feature engineering to obtain a dataset that can be used to conduct clustering.
+
+---
 
 # Clustering
 ## DBSCAN.ipynb
@@ -26,8 +30,9 @@ Exploratory notebook to explore DBSCAN clustering and find ways to optimize the 
 ## Exploring Clustering.ipynb 
 This notebook was used as an exploratory process to observe the results of clustering methods when features are added/removed.
 
-# Visualizations and Interpretation 
+---
 
+# Visualizations and Interpretation 
 ## Clustering and Mapping.ipynb 
 With the assistance of functions.py, this notebook was used to generate the final visualizations of the various clustering methods. 
 
@@ -37,8 +42,9 @@ This notebook extracts demographic data for the clusters generated via clusterin
 ## Income Demographics.ipynb
 This notebook extracts economic data for the clusters generated via clustering.
 
-# Extra 
+---
 
+# Extra 
 ## Supervised_Learning.ipynb
 This notebook was an exploratory process to identify if a possible regression correlation exists between the features we used to predict total population of the neighborhoods. 
 
