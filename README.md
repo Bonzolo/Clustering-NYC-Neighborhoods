@@ -1,8 +1,9 @@
 # Folders
 ***Clustering Folder***
+
 After data is extracted and processed. Store datasets are placed within the Clustering folder for ease of reference.
 ### Raw Data Folder
-  All datasets from various sources are store within 'Raw Data'. The functions will be pulling data from these files. 
+ All datasets from various sources are store within 'Raw Data'. The functions will be pulling data from these files. 
 
 'acs_combined.xlsx' is a combination of 'acs_demo_08to12_ntas.xlsx' , 'acs_select_econ_08to12_ntas.xlsx', 'acs_select_housing_08to12_ntas.xlsx', 'acs_socio_08to12_ntas.xlsx' to have all the data be located within one file for easier access. 
 
