@@ -18,14 +18,26 @@ from pyproj import CRS
 from shapely.geometry import Point, Polygon
 import matplotlib.pyplot as plt
 
+##Global Variables
+# define Geographic 2D Coodinate system (CRS: EPSG:4326)
+crs_4326 = CRS("WGS84")
+
+# define neighborhood (nb_df) GeoDataFrame
+neighborhood = gpd.read_file('Raw Data/Neighborhood Tabulation Areas (NTA)')
+nb_df = neighborhood[['ntacode', 'ntaname', 'geometry']]
+
+
+
+
+
 def demo_data(features, filepath):
 
     ''' 
     Accesses data within excel file 'acs_combined.xlsx' to return requested features.
     
     Parameters:
-    features(list): list of features in str format to be obtained from the data within the excel file 'acs_combined.xlsx'
-    filepath(string): filepath to excel file 'acs_combined.xlsx'
+    features(list): list of features in str format to be obtained from the data within the excel file 'acs_combined.xlsx'.
+    filepath(string): filepath to excel file 'acs_combined.xlsx'.
     
     Returns: 
     DataFrame(df) with features passed listed as the columns and NTA Codes of neighborhoods as the index. 
@@ -60,12 +72,9 @@ def demo_data(features, filepath):
     
     return neighborhoods.merge(estimates, left_index=True,right_index = True)
 
-# define Geographic 2D Coodinate system (CRS: EPSG:4326)
-crs_4326 = CRS("WGS84")
 
-# define neighborhood (nb_df) GeoDataFrame
-neighborhood = gpd.read_file('Raw Data/Neighborhood Tabulation Areas (NTA)')
-nb_df = neighborhood[['ntacode', 'ntaname', 'geometry']]
+
+
 
 def identify_neighborhood(df):
     '''
@@ -105,6 +114,10 @@ def identify_neighborhood(df):
     df_with_neighborhood = df_with_neighborhood.rename(columns={'ntaname': column_name})
     
     return df_with_neighborhood
+
+
+
+
 
 def visualize_clusters(df, clusters_array):
     """
@@ -147,7 +160,20 @@ def visualize_clusters(df, clusters_array):
     fig.clf()
     
 
+    
+    
+    
 def plotter(df,method):
+    """
+    Returns a color-coded clustered neighborhoods on map of NYC labled via colors followed with a Radar Chart identifying the characteristics of each cluster.
+    
+        Parameters:
+            df (DataFrame): Unscaled df containing the features required to be passed to create the clusters.
+            method (str): method to clsuter neighborhoods by. Valid choices are 'kmeans', 'heirarchical' and 'dbscan'.
+            
+        Outputs:
+            Plot of clustered NYC neighborhoods and radar chart. 
+    """
     
     # Create a new scaled dataset
     new_df = pd.DataFrame(StandardScaler(with_mean = False).fit_transform(df),columns = df.columns)
@@ -192,9 +218,11 @@ def plotter(df,method):
 
     # Radar chart generation
     fig = go.Figure()
+    # Create a color list to match the Dark 2 colormap scheme, used when creating the Radar Charts to get them to match with the map
+    color = ['#1B9E77','#D95F02','#7570B3','#E7298A','#66A61E','#E6AB02','#A6761D','#666666'] 
     # Iterate to plot each radar chart on top of each other
     for j in range(clusters):
-        fig.add_trace(go.Scatterpolar(r=list(new_df[new_df['Cluster'] == j+1].mean()), theta=features, fill='toself',name='Cluster '+ str(j+1)))
+        fig.add_trace(go.Scatterpolar(r=list(new_df[new_df['Cluster'] == j+1].mean()), theta=features, fill='toself', fillcolor = color[j], opacity=0.6, name='Cluster '+ str(j+1), line={'color':color[j]}))
     
     fig.update_layout(polar=dict(radialaxis=dict(visible=True,range=[0, 6])), showlegend=True)
     fig.show()
