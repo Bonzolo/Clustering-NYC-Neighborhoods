@@ -4,6 +4,7 @@ The goal of this project was to explore various datasets available online to obt
 # How to Navigate
 ## Raw Data Folder
 All datasets from various sources are store within 'Raw Data'. The functions will be pulling data from these files. 
+
 'acs_combined.xlsx' is a combination of 'acs_demo_08to12_ntas.xlsx' , 'acs_select_econ_08to12_ntas.xlsx', 'acs_select_housing_08to12_ntas.xlsx', 'acs_socio_08to12_ntas.xlsx' to have all the data be located within one file for easier access. 
 
 ## Clustering Folder
