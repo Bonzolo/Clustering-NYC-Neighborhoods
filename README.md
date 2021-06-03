@@ -5,13 +5,11 @@
 - ***Raw Data Folder***
    - All datasets from various sources are store within 'Raw Data'. The functions will be pulling data from these files.
    - 'acs_combined.xlsx' is a combination of 'acs_demo_08to12_ntas.xlsx' , 'acs_select_econ_08to12_ntas.xlsx', 'acs_select_housing_08to12_ntas.xlsx', 'acs_socio_08to12_ntas.xlsx' to have all the data be located within one file for easier access. 
+- ***Visualizations Folder***
+   - All data visulaitions used for presentations are stored here.
 
-### Visualizations Folder
-All data visulaitions used for presentations are stored here.
-
----
-
-# Function List
+# Files 
+Function List
 ### functions.py
 This file stores all the functions that have been user created and used within the various notebooks to conduct tasks. 
 
