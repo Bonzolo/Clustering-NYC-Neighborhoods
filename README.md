@@ -19,17 +19,14 @@
 # Clustering
 - ***DBSCAN.ipynb***
    - Exploratory notebook to explore DBSCAN clustering and find ways to optimize the results obtained from DBScan clustering. 
-
 - ***Exploring Clustering.ipynb***
    - This notebook was used as an exploratory process to observe the results of clustering methods when features are added/removed.
 
 # Visualizations and Interpretation 
 - ***Clustering and Mapping.ipynb***
    - With the assistance of functions.py, this notebook was used to generate the final visualizations of the various clustering methods. 
-
 - ***Race Demographics.ipynb***
    - This notebook extracts demographic data for the clusters generated via clustering.
-
 - ***Income Demographics.ipynb***
    - This notebook extracts economic data for the clusters generated via clustering.
 
