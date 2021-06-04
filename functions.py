@@ -168,11 +168,12 @@ def plotter(df,method):
     Returns a color-coded clustered neighborhoods on map of NYC labled via colors followed with a Radar Chart identifying the characteristics of each cluster.
     
         Parameters:
-            df (DataFrame): Unscaled df containing the features required to be passed to create the clusters.
+            df (DataFrame): Unscaled dataframe containing the features required to be passed to create the clusters.
             method (str): method to clsuter neighborhoods by. Valid choices are 'kmeans', 'heirarchical' and 'dbscan'.
             
         Outputs:
             Plot of clustered NYC neighborhoods and radar chart. 
+            df2 (DataFrame): DataFrame that matches cluster number with neighborhoods.
     """
     
     # Create a new scaled dataset
@@ -226,3 +227,8 @@ def plotter(df,method):
     
     fig.update_layout(polar=dict(radialaxis=dict(visible=True,range=[0, 6])), showlegend=True)
     fig.show()
+    
+    # Create dataframe with cluster number and neighborhood to be exported into a CSV for future reference
+    df2 = df.copy()
+    df2['Cluster'] = y+1
+    return df2
